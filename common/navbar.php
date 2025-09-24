@@ -1,11 +1,16 @@
 <?php
-$active = "Home"; 
+// Base URL for the project
+include('base.php');
 
+// Current page
+$current_page = basename($_SERVER['PHP_SELF']);
+
+// Navigation items
 $navItems = [
-  ["label" => "Home", "icon" => '<i class="bi bi-house"></i>'],
-  ["label" => "About", "icon" => '<i class="bi bi-info-circle"></i>'],
-  ["label" => "Services", "icon" => '<i class="bi bi-gear"></i>'],
-  ["label" => "Contact", "icon" => '<i class="bi bi-envelope"></i>']
+  ["label" => "Home", "icon" => '<i class="bi bi-house"></i>', "link" => "index.php"],
+  ["label" => "About", "icon" => '<i class="bi bi-info-circle"></i>', "link" => "about.php"],
+  ["label" => "Blog", "icon" => '<i class="bi bi-pencil-square"></i>', "link" => "blog-list.php"],
+  ["label" => "Contact", "icon" => '<i class="bi bi-envelope"></i>', "link" => "contact.php"]
 ];
 ?>
 <!DOCTYPE html>
@@ -13,38 +18,35 @@ $navItems = [
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blogs</title>
+  <!-- <title>Blogs</title> -->
+  <link rel="icon" type="image/jpg" href="<?= $base_url ?>/images/blog-logos.jpg" />
+  
+  <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
+    /* Navbar styling */
     .navbar-custom {
-      background: black;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+      background: #000;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
     }
     .navbar-brand span {
       color: #F37600;
       font-weight: bold;
-      line-height: 1;
+      font-size: 1.5rem;
     }
-    /* .brand-icon {
-      background: #16a34a;
-      padding: 8px;
-      border-radius: 50%;
-      color: #facc15;
-      font-size: 1.2rem;
-    } */
     .nav-link {
       font-weight: 600;
-      transition: 0.3s;
-     color: #F37600 !important;
+      transition: all 0.3s ease;
+      color: #F37600 !important;
       border-bottom: 2px solid transparent;
     }
     .nav-link.active,
     .nav-link:hover {
-      color: #F37600 !important;
-      border-bottom: 2px solid #F37600;
+      color: #16a34a !important;
+      border-bottom: 2px solid #16a34a;
       padding-bottom: 2px;
     }
     .social-icons a {
@@ -70,32 +72,26 @@ $navItems = [
 <nav class="navbar navbar-expand-md navbar-custom fixed-top px-3">
   <div class="container-fluid">
 
-    <a class="navbar-brand d-flex align-items-center" href="index.php">
+    <a class="navbar-brand d-flex align-items-center" href="<?= $base_url ?>/index.php">
       <div class="me-2">
-        <span>Blogs</span><br>
+        <span>Blogs</span>
       </div>
-      <!-- <div class="brand-icon">
-        <i class="bi bi-egg-fried"></i>
-      </div> -->
     </a>
 
     <!-- Toggle Button -->
-    <button class="navbar-toggler border-0" type="button">
-      <i class="fas fa-bars custom-toggler-icon" id="toggleIcon"></i>
+    <button class="navbar-toggler" type="button">
+      <i class="fas fa-bars" id="toggleIcon"></i>
     </button>
 
     <!-- Collapse Menu -->
     <div class="collapse navbar-collapse justify-content-center" id="mainNav">
       <ul class="navbar-nav mb-2 mb-md-0">
-        <?php foreach($navItems as $item): 
-          $label = $item['label'];
-          $icon = $item['icon'];
-          $link = ($label === "Home") ? "index.php" : strtolower(str_replace(" ", "-", $label)) . ".php";
+        <?php foreach($navItems as $item):
+          $isActive = ($current_page === $item['link']) ? 'active' : '';
         ?>
           <li class="nav-item mx-2">
-            <a href="<?= $link ?>" 
-               class="nav-link <?= ($active === $label) ? 'active' : '' ?>">
-              <?= $icon ?> <?= $label ?>
+            <a href="<?= $base_url ?>/<?= $item['link'] ?>" class="nav-link <?= $isActive ?>">
+              <?= $item['icon'] ?> <?= $item['label'] ?>
             </a>
           </li>
         <?php endforeach; ?>
@@ -117,23 +113,17 @@ $navItems = [
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   const toggler = document.querySelector('.navbar-toggler');
-  const navCollapse = document.getElementById('mainNav'); // ✅ Fixed ID
+  const navCollapse = document.getElementById('mainNav');
   const toggleIcon = document.getElementById('toggleIcon');
 
   toggler.addEventListener('click', () => {
     navCollapse.classList.toggle('show');
-
-    if (navCollapse.classList.contains('show')) {
-      toggleIcon.classList.remove('fa-bars');
-      toggleIcon.classList.add('fa-times');
-    } else {
-      toggleIcon.classList.remove('fa-times');
-      toggleIcon.classList.add('fa-bars');
-    }
+    toggleIcon.classList.toggle('fa-times');
+    toggleIcon.classList.toggle('fa-bars');
   });
 
-  // Click outside to close
-  document.addEventListener('click', function (event) {
+  // Close menu on click outside
+  document.addEventListener('click', function(event) {
     if (!toggler.contains(event.target) && !navCollapse.contains(event.target)) {
       if (navCollapse.classList.contains('show')) {
         navCollapse.classList.remove('show');

@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# agar aapke URLs mein blog/category/slug hai to rewrite kare
+RewriteRule ^([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ blog-detail.php?category=$1&slug=$2 [L,QSA]

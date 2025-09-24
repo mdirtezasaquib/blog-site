@@ -4,7 +4,9 @@ include('common/navbar.php');
 
 
 <?php
-include('index/landingPage.php');
+include('index/landing-page2.php');
+include('index/blog-index.php');
+
 ?>
 
 
