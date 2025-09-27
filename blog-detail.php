@@ -28,6 +28,20 @@ if ($blog = $result->fetch_assoc()):
   <meta name="description" content="<?php echo htmlspecialchars($blog['meta_description']); ?>">
   <meta name="keywords" content="<?php echo htmlspecialchars($blog['meta_keywords']); ?>">
 
+
+   <!-- Google Tag (hidden on screen, visible in source code) -->
+    <style>.google-tag { display: none; }</style>
+    <div class="google-tag">
+        <?= $blog['google_tag']; ?>
+    </div>
+
+
+    <!-- canonical  -->
+
+
+    <link rel="canonical" href="/blog/<?php echo htmlspecialchars($blog['custom_slug']); ?>">
+
+
   <!-- OG -->
   <meta property="og:title" content="<?php echo htmlspecialchars($blog['og_title']); ?>">
   <meta property="og:description" content="<?php echo htmlspecialchars($blog['og_description']); ?>">
@@ -39,6 +53,9 @@ if ($blog = $result->fetch_assoc()):
   <meta name="twitter:title" content="<?php echo htmlspecialchars($blog['og_title']); ?>">
   <meta name="twitter:description" content="<?php echo htmlspecialchars($blog['og_description']); ?>">
   <meta name="twitter:image" content="<?php echo htmlspecialchars($blog['og_image']); ?>">
+
+
+
 
   <style>
     :root {
@@ -359,9 +376,11 @@ if ($blog = $result->fetch_assoc()):
             <img src="<?php echo htmlspecialchars($r['banner_image']); ?>" alt="<?php echo htmlspecialchars($r['banner_image_alt']); ?>">
           <?php endif; ?>
           <div>
-            <a href="blog/<?php echo $r['cat_slug'].'/'.$r['custom_slug']; ?>">
-              <?php echo htmlspecialchars($r['custom_slug']); ?>
-            </a>
+        <a href="/blog-website/<?php echo $r['cat_slug'].'/'.$r['custom_slug']; ?>">
+  <?php echo htmlspecialchars($r['custom_slug']); ?>
+</a>
+
+
             <small><?php echo htmlspecialchars($r['category']); ?> | <?php echo date('d M Y', strtotime($r['posted_on'])); ?></small>
           </div>
         </div>
@@ -369,18 +388,18 @@ if ($blog = $result->fetch_assoc()):
     </div>
   </div>
 
-  <!-- JSON-LD -->
-  <?php
-  $json_data = json_decode($blog['json_tag'], true);
-  if($json_data !== null){
-      $encoded_json = json_encode($json_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-      ?>
-      <script type="application/ld+json">
-      <?php echo $encoded_json; ?>
-      </script>
-      <?php
-  }
-  ?>
+  <!-- JSON-LD structured data placed just above body close -->
+<?php
+$json_data = json_decode($blog['json_tag'], true);
+if($json_data !== null){
+    $encoded_json = json_encode($json_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    ?>
+    <script type="application/ld+json">
+    <?php echo $encoded_json; ?>
+    </script>
+    <?php
+}
+?>
 </body>
 </html>
 
@@ -388,4 +407,8 @@ if ($blog = $result->fetch_assoc()):
 else:
   echo "Blog not found.";
 endif;
+?>
+
+<?php
+include('common/footer.php');
 ?>

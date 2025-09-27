@@ -4,8 +4,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us</title>
+
+  <!-- Page Title -->
+  <title>Contact Us | Blogging Website</title>
+
+  <!-- Meta Description & Keywords -->
+  <meta name="description" content="Get in touch with us at Blogging Website. Contact us for inquiries, collaborations, or any questions.">
+  <meta name="keywords" content="contact, blogging website, inquiries, support, collaboration">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.example.com/contact-us">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Contact Us | Blogging Website">
+  <meta property="og:description" content="Get in touch with us at Blogging Website. Contact us for inquiries, collaborations, or any questions.">
+  <meta property="og:image" content="https://www.example.com/images/contact-og.jpg">
+  <meta property="og:url" content="https://www.example.com/contact-us">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Blogging Website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact Us | Blogging Website">
+  <meta name="twitter:description" content="Get in touch with us at Blogging Website. Contact us for inquiries, collaborations, or any questions.">
+  <meta name="twitter:image" content="https://www.example.com/images/contact-og.jpg">
+
+  <!-- Schema / JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Us",
+    "url": "https://www.example.com/contact-us",
+    "description": "Get in touch with us at Blogging Website. Contact us for inquiries, collaborations, or any questions.",
+    "contactType": "Customer Service",
+    "email": "info@example.com",
+    "telephone": "+1-123-456-7890",
+    "sameAs": [
+      "https://www.facebook.com/example",
+      "https://twitter.com/example",
+      "https://www.linkedin.com/company/example"
+    ]
+  }
+  </script>
+
+  <!-- CSS Libraries -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     .contact-section {
       padding: 60px 18px;

@@ -1,6 +1,5 @@
 <?php
-// categories_blogs.php
-// Assumptions: admin/config.php sets up $conn = new mysqli(...);
+
 
 // Change if your cover image path is different
 define('COVER_PATH', 'uploads/');
@@ -28,16 +27,12 @@ $catResult = $conn->query($catSql);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Categories & Blogs</title>
-
-<!-- Bootstrap (you already use it — keeps responsiveness consistent) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Optional: Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 <style>
-/* ---------- Page styling ---------- */
-body { background: #f7f9fb; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;  }
+
+body { background: #f7f9fb !important; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;  }
 .container { padding: 40px 16px; max-width: 1200px; }
 
 /* Category heading */
@@ -59,7 +54,7 @@ body { background: #f7f9fb; font-family: system-ui, -apple-system, "Segoe UI", R
 }
 .featured-card .thumb { width:100%; height:320px; object-fit:cover; border-radius:8px; background:#eee; }
 .featured-card .meta { display:flex; gap:8px; align-items:center; color:#6b7280; font-size:13px; }
-.featured-card h3 { margin:0; font-size:20px; color:#0b1220; }
+.featured-card h3 { margin:0; font-size:20px; color:#0b1220; text-decoration: none !important; }
 .featured-card p.lead { color:#374151; margin:6px 0 12px; }
 
 /* Small cards list (right column) */
@@ -88,7 +83,7 @@ body { background: #f7f9fb; font-family: system-ui, -apple-system, "Segoe UI", R
   padding:8px 12px;
   border-radius:8px;
   border: none;
-  background: linear-gradient(90deg,#2563eb,#7c3aed);
+ background: linear-gradient(45deg, #00f260, #0575e6);
   color:#fff;
   font-weight:600;
   text-decoration:none;
@@ -112,14 +107,26 @@ body { background: #f7f9fb; font-family: system-ui, -apple-system, "Segoe UI", R
   .category-head h2 { font-size:18px; }
   .small-grid { grid-template-columns:repeat(1,1fr); }
 }
+
+
+a {
+  text-decoration: none !important;
+  color: inherit; 
+}
+
+a:hover {
+  text-decoration: none !important;
+  color: #0575e6; 
+}
+
 </style>
 </head>
 <body>
 
 <div class="container">
   <header class="mb-4">
-    <h1 style="font-size:28px; margin:0 0 6px;">All Categories</h1>
-    <p style="margin:0; color:#6b7280;">Categories and their latest posts — dynamic, responsive and clean.</p>
+    <!-- <h1 style="font-size:28px; margin:0 0 6px;">All Categories</h1>
+    <p style="margin:0; color:#6b7280;">Categories and their latest posts — dynamic, responsive and clean.</p> -->
   </header>
 
 <?php
@@ -132,7 +139,16 @@ if (!$catResult || $catResult->num_rows === 0) {
         $catSlug = $cat['slug'];
 
         // Fetch featured (first) blog for this category
-        $stmt = $conn->prepare("SELECT id, custom_slug, cover_image, cover_image_alt, cover_title, cover_description, page_title, posted_on FROM blogs WHERE category_id = ? ORDER BY posted_on DESC LIMIT 1");
+       $stmt = $conn->prepare("
+    SELECT b.id, b.custom_slug, b.cover_image, b.cover_image_alt, b.cover_title, 
+           b.cover_description, b.page_title, b.posted_on, c.slug AS category_slug
+    FROM blogs b
+    JOIN categories c ON b.category_id = c.id
+    WHERE b.category_id = ?
+    ORDER BY b.posted_on DESC 
+    LIMIT 1
+");
+
         $stmt->bind_param("i", $catId);
         $stmt->execute();
         $featured = $stmt->get_result()->fetch_assoc();
@@ -144,7 +160,16 @@ if (!$catResult || $catResult->num_rows === 0) {
         }
 
         // Fetch other blogs for this category (skip the featured one)
-        $stmt2 = $conn->prepare("SELECT id, custom_slug, cover_image, cover_image_alt, cover_title, posted_on FROM blogs WHERE category_id = ? ORDER BY posted_on DESC LIMIT 10 OFFSET 1");
+       $stmt2 = $conn->prepare("
+    SELECT b.id, b.custom_slug, b.cover_image, b.cover_image_alt, b.cover_title, 
+           b.posted_on, c.slug AS category_slug
+    FROM blogs b
+    JOIN categories c ON b.category_id = c.id
+    WHERE b.category_id = ?
+    ORDER BY b.posted_on DESC 
+    LIMIT 10 OFFSET 1
+");
+
         $stmt2->bind_param("i", $catId);
         $stmt2->execute();
         $others = $stmt2->get_result();
@@ -159,10 +184,7 @@ if (!$catResult || $catResult->num_rows === 0) {
         <h2><?php echo e($catName); ?></h2>
         <div class="cat-meta"><?php echo $otherCount + 1; ?> posts · <?php echo e($catSlug); ?></div>
       </div>
-      <div class="d-none d-md-block">
-        <!-- optional action like 'View category' -->
-        <a class="btn btn-sm btn-outline-secondary" href="blog-category.php?slug=<?php echo e($catSlug); ?>">View Category</a>
-      </div>
+      
     </div>
 
     <div class="row g-4 align-items-start">
@@ -173,7 +195,8 @@ if (!$catResult || $catResult->num_rows === 0) {
             $fCover = $featured['cover_image'] ? COVER_PATH . $featured['cover_image'] : 'https://via.placeholder.com/900x520?text=No+Image';
             $fAlt = $featured['cover_image_alt'] ?: $featured['cover_title'] ?: 'cover image';
           ?>
-          <a href="blog-detail.php?slug=<?php echo e($featured['custom_slug']); ?>" style="text-decoration:none;">
+          <a href="<?php echo e($featured['category_slug']); ?>/<?php echo e($featured['custom_slug']); ?>">
+
             <img class="thumb" src="<?php echo e($fCover); ?>" alt="<?php echo e($fAlt); ?>">
           </a>
           <div>
@@ -183,22 +206,23 @@ if (!$catResult || $catResult->num_rows === 0) {
               <small><?php echo date('M j, Y', strtotime($featured['posted_on'])); ?></small>
             </div>
 
-            <h3>
-              <a href="blog-detail.php?slug=<?php echo e($featured['custom_slug']); ?>" style="color:inherit; text-decoration:none;">
-                <?php echo e($featured['cover_title'] ?: $featured['page_title']); ?>
-              </a>
-            </h3>
+           <h3>
+  <a href="<?php echo e($featured['category_slug']); ?>/<?php echo e($featured['custom_slug']); ?>">
+    <?php echo e($featured['cover_title'] ?: $featured['page_title']); ?>
+  </a>
+</h3>
+
 
             <?php if (!empty($featured['cover_description'])): ?>
               <p class="lead"><?php echo e(mb_strimwidth($featured['cover_description'], 0, 180, '...')); ?></p>
             <?php endif; ?>
 
-            <div class="d-flex align-items-center gap-3">
-              <a class="btn-read" href="blog-detail.php?slug=<?php echo e($featured['custom_slug']); ?>">
-                Read article <i class="fa-solid fa-arrow-right"></i>
-              </a>
-              <div style="color:#6b7280; font-size:14px;"><?php echo date('F j, Y', strtotime($featured['posted_on'])); ?></div>
-            </div>
+            <a class="btn-read" href="<?php echo e($featured['category_slug']); ?>/<?php echo e($featured['custom_slug']); ?>">
+  Read article <i class="fa-solid fa-arrow-right"></i>
+</a>
+
+             
+          
           </div>
         </article>
       </div>
@@ -211,16 +235,17 @@ if (!$catResult || $catResult->num_rows === 0) {
                 while ($o = $others->fetch_assoc()) {
                     $sCover = $o['cover_image'] ? COVER_PATH . $o['cover_image'] : 'https://via.placeholder.com/400x300?text=No+Image';
           ?>
-            <a class="small-card" href="blog-detail.php?slug=<?php echo e($o['custom_slug']); ?>">
-              <img src="<?php echo e($sCover); ?>" alt="<?php echo e($o['cover_image_alt'] ?: $o['cover_title']); ?>">
-              <div class="s-info">
-                <h4><?php echo e(mb_strimwidth($o['cover_title'] ?: 'Untitled', 0, 60, '...')); ?></h4>
-                <div class="date"><?php echo date('M j, Y', strtotime($o['posted_on'])); ?></div>
-              </div>
-              <div class="d-none d-md-block text-end">
-                <span class="badge bg-light text-dark" style="font-weight:600;">Read</span>
-              </div>
-            </a>
+           <a class="small-card" href="<?php echo e($o['category_slug']); ?>/<?php echo e($o['custom_slug']); ?>">
+  <img src="<?php echo e($sCover); ?>" alt="<?php echo e($o['cover_image_alt'] ?: $o['cover_title']); ?>">
+  <div class="s-info">
+    <h4><?php echo e(mb_strimwidth($o['cover_title'] ?: 'Untitled', 0, 60, '...')); ?></h4>
+    <div class="date"><?php echo date('M j, Y', strtotime($o['posted_on'])); ?></div>
+  </div>
+  <div class="d-none d-md-block text-end">
+    <span class="badge bg-light text-dark" style="font-weight:600;">Read More</span>
+  </div>
+</a>
+
           <?php
                 } // end while others
             } else {
@@ -229,21 +254,18 @@ if (!$catResult || $catResult->num_rows === 0) {
           ?>
         </div>
 
-        <!-- Optional: show a small grid for older posts if you want to display more -->
-        <?php
-        // If you want to show additional posts in a grid, uncomment below and adjust queries.
-        ?>
+      
       </div>
     </div>
   </section>
 
 <?php
-    } // end while categories
-} // end else categories
+    } 
+} 
 ?>
 </div> <!-- container -->
 
-<!-- Bootstrap JS (optional for some components) -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -7,9 +7,54 @@ include('common/navbar.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page Title -->
     <title>About The Author | Blogging Website</title>
+
+    <!-- Meta Description & Keywords -->
+    <meta name="description" content="Learn about the author of our blogging website, their journey, expertise, and insights.">
+    <meta name="keywords" content="author, blogging, biography, expertise, insights">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.example.com/about-the-author">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="About The Author | Blogging Website">
+    <meta property="og:description" content="Learn about the author of our blogging website, their journey, expertise, and insights.">
+    <meta property="og:image" content="https://www.example.com/images/author-og.jpg">
+    <meta property="og:url" content="https://www.example.com/about-the-author">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Blogging Website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About The Author | Blogging Website">
+    <meta name="twitter:description" content="Learn about the author of our blogging website, their journey, expertise, and insights.">
+    <meta name="twitter:image" content="https://www.example.com/images/author-og.jpg">
+
+    <!-- Schema / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Author Name",
+      "url": "https://www.example.com/about-the-author",
+      "description": "Learn about the author of our blogging website, their journey, expertise, and insights.",
+      "sameAs": [
+        "https://www.linkedin.com/in/author",
+        "https://twitter.com/author"
+      ]
+    }
+    </script>
+
+    <!-- CSS Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --orange: #F37600;

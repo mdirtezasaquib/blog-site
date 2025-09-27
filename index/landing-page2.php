@@ -148,8 +148,10 @@
 <!-- Hero Section -->
 <section class="hero">
   <div class="hero-content" data-aos="fade-up">
-    <h1>Your <span>AI Powered</span><br> Digital Growth Partner</h1>
-    <p>We are an Artificial Intelligence enabled growth agency that helps you accelerate your business to achieve maximum ROI.</p>
+   <h1>Your <span>AI Powered</span><br> Blogging Partner</h1>
+<p>Discover insightful blogs, trending topics, and expert opinions — all in one place. 
+We bring you fresh, engaging, and SEO-friendly content to keep you informed and inspired.</p>
+
 
     <!-- Email Form -->
     <form class="email-form" action="#" method="post" data-aos="zoom-in">

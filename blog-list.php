@@ -10,9 +10,51 @@ $filter_category = isset($_GET['category']) ? $_GET['category'] : '';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>All Blogs</title>
+  
+  <!-- Page Title -->
+  <title>All Blogs - My Website</title>
+  
+  <!-- Meta Description & Keywords -->
+  <meta name="description" content="Read the latest blogs and articles on My Website covering technology, tips, and tutorials.">
+  <meta name="keywords" content="blogs, articles, tutorials, technology, tips, guides">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.example.com/blog/">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- Open Graph (Facebook, LinkedIn etc.) -->
+  <meta property="og:title" content="All Blogs - My Website">
+  <meta property="og:description" content="Read the latest blogs and articles on My Website covering technology, tips, and tutorials.">
+  <meta property="og:image" content="https://www.example.com/images/og-default.jpg">
+  <meta property="og:url" content="https://www.example.com/blog/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="My Website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="All Blogs - My Website">
+  <meta name="twitter:description" content="Read the latest blogs and articles on My Website covering technology, tips, and tutorials.">
+  <meta name="twitter:image" content="https://www.example.com/images/og-default.jpg">
+
+  <!-- Schema / JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "All Blogs - My Website",
+    "url": "https://www.example.com/blog/",
+    "description": "Read the latest blogs and articles on My Website covering technology, tips, and tutorials."
+  }
+  </script>
+
+  <!-- Fonts & Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+
 
   <style>
     :root {
