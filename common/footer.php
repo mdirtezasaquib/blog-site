@@ -2,7 +2,6 @@
 $quickLinks = [
   ["label" => "Home", "url" => "index.php"],
   ["label" => "About", "url" => "about.php"],
-  ["label" => "Blog", "url" => "blog.php"],
   ["label" => "Contact Us", "url" => "contact.php"],
 ];
 ?>
@@ -155,13 +154,44 @@ $quickLinks = [
     color: #F37600;
   }
 
-  /* Responsive */
   @media(max-width: 768px) {
-    .unique-footer-row {
-      flex-direction: column;
-    }
-    .unique-footer-col {
-      min-width: 100%;
-    }
+  .unique-footer {
+    padding: 15px 10px; 
   }
+
+  .unique-footer-row {
+    flex-direction: column;
+    gap: 25px; 
+  }
+
+  .unique-footer-col {
+    flex: unset;  
+    min-width: unset;
+    margin-bottom: 5px;
+  }
+
+  .unique-footer-heading {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .unique-footer-text, 
+  .unique-footer-link {
+    font-size: 12px;
+    line-height: 1.4; 
+    margin-bottom: 4px;
+  }
+
+  .unique-footer-social {
+    gap: 8px;
+    font-size: 18px;
+  }
+
+  .unique-footer-bottom {
+    margin-top: 10px;
+    padding-top: 8px;
+    font-size: 11px;
+  }
+}
+
 </style>

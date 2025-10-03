@@ -180,13 +180,13 @@
      <h3 class="fw-semi-bold" style="color:#F37600;">Send Us A Message &rarr;</h3>
 
       
-      <form>
-        <input type="text" class="form-control" placeholder="Full Name *" required>
-        <input type="email" class="form-control" placeholder="Email Address *" required>
-        <input type="text" class="form-control" placeholder="Subject *" required>
-        <textarea class="form-control" rows="5" placeholder="Your Message Here *" required></textarea>
-        <button type="submit" class="btn-custom">Send Now</button>
-      </form>
+    <form action="admin/save-contact.php" method="post">
+    <input type="text" name="full_name" class="form-control" placeholder="Full Name *" required>
+    <input type="email" name="email" class="form-control" placeholder="Email Address *" required>
+    <input type="text" name="subject" class="form-control" placeholder="Subject *" required>
+    <textarea name="message" class="form-control" rows="5" placeholder="Your Message Here *" required></textarea>
+    <button type="submit" class="btn-custom">Send Now</button>
+</form>
 
       <!-- Google Map -->
       <!-- <div class="map-container mt-4">

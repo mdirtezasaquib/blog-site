@@ -1,4 +1,43 @@
+# Enable rewrite engine
 RewriteEngine On
 
-# agar aapke URLs mein blog/category/slug hai to rewrite kare
+# -------------------------------
+# 0️⃣ Force HTTPS (optional)
+# -------------------------------
+# Uncomment if your site uses SSL
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# -------------------------------
+# 1️⃣ Home page
+# -------------------------------
+RewriteRule ^$ index.php [L]
+
+# -------------------------------
+# 2️⃣ Blog detail page: /category/slug
+# Example: /tech/how-to-code
+# -------------------------------
 RewriteRule ^([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ blog-detail.php?category=$1&slug=$2 [L,QSA]
+
+# -------------------------------
+# 3️⃣ Blog category page: /category-slug
+# Example: /tech
+# -------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9-]+)/?$ blog.php?category=$1 [L,QSA]
+
+# -------------------------------
+# 4️⃣ Remove trailing slash for files (optional)
+# -------------------------------
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [R=301,L]
+
+
+# -------------------------------
+# 6️⃣ Optional: Prevent access to htaccess itself
+# -------------------------------
+<Files .htaccess>
+    Order Allow,Deny
+    Deny from all
+</Files>

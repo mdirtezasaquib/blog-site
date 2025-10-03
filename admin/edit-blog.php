@@ -15,12 +15,25 @@ if (!$blog) die("Blog not found.");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Safely get POST values, fall back to existing data to avoid undefined index
-    $category_id       = $_POST['category_id'] ?? $blog['category_id'];
-    $page_title        = $_POST['page_title'] ?? $blog['page_title'];
-    $custom_slug       = $_POST['custom_slug'] ?? $blog['custom_slug'];
-    $og_title          = $_POST['og_title'] ?? $blog['og_title'];
-    $content           = $_POST['content'] ?? $blog['content'];
+    // Safely get POST values, fallback to existing data
+    $category_id        = $_POST['category_id'] ?? $blog['category_id'];
+    $page_title         = $_POST['page_title'] ?? $blog['page_title'];
+    $google_tag         = $_POST['google_tag'] ?? $blog['google_tag'];
+    $json_tag           = $_POST['json_tag'] ?? $blog['json_tag'];
+    $meta_description   = $_POST['meta_description'] ?? $blog['meta_description'];
+    $meta_keywords      = $_POST['meta_keywords'] ?? $blog['meta_keywords'];
+    $canonical_url      = $_POST['canonical_url'] ?? $blog['canonical_url'];
+    $custom_slug        = $_POST['custom_slug'] ?? $blog['custom_slug'];
+    $og_title           = $_POST['og_title'] ?? $blog['og_title'];
+    $og_image_alt       = $_POST['og_image_alt'] ?? $blog['og_image_alt'];
+    $og_url             = $_POST['og_url'] ?? $blog['og_url'];
+    $og_description     = $_POST['og_description'] ?? $blog['og_description'];
+    $cover_image_alt    = $_POST['cover_image_alt'] ?? $blog['cover_image_alt'];
+    $cover_title        = $_POST['cover_title'] ?? $blog['cover_title'];
+    $cover_description  = $_POST['cover_description'] ?? $blog['cover_description'];
+    $posted_on          = $_POST['posted_on'] ?? $blog['posted_on'];
+    $banner_image_alt   = $_POST['banner_image_alt'] ?? $blog['banner_image_alt'];
+    $content            = $_POST['content'] ?? $blog['content'];
 
     // Existing images
     $og_image     = $blog['og_image'];
@@ -45,12 +58,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Update blog
-    $stmt = $conn->prepare("UPDATE blogs SET category_id=?, page_title=?, custom_slug=?, og_title=?, og_image=?, cover_image=?, banner_image=?, content=?, updated_at=NOW() WHERE id=?");
-    $stmt->bind_param("isssssssi", $category_id, $page_title, $custom_slug, $og_title, $og_image, $cover_image, $banner_image, $content, $id);
+    $stmt = $conn->prepare("
+        UPDATE blogs SET 
+        category_id=?, page_title=?, google_tag=?, json_tag=?, meta_description=?, meta_keywords=?, canonical_url=?, custom_slug=?, 
+        og_title=?, og_image=?, og_image_alt=?, og_url=?, og_description=?, 
+        cover_image=?, cover_image_alt=?, cover_title=?, cover_description=?, posted_on=?, 
+        banner_image=?, banner_image_alt=?, content=?, updated_at=NOW() 
+        WHERE id=?
+    ");
+    $stmt->bind_param("issssssssssssssssssssi", 
+        $category_id, $page_title, $google_tag, $json_tag, $meta_description, $meta_keywords, $canonical_url, $custom_slug,
+        $og_title, $og_image, $og_image_alt, $og_url, $og_description,
+        $cover_image, $cover_image_alt, $cover_title, $cover_description, $posted_on,
+        $banner_image, $banner_image_alt, $content, $id
+    );
 
     if ($stmt->execute()) {
-        $message = "Blog updated successfully"; // show success message on same page
-        // Refresh blog data after update
+        $message = "Blog updated successfully";
         $stmt2 = $conn->prepare("SELECT * FROM blogs WHERE id = ?");
         $stmt2->bind_param("i", $id);
         $stmt2->execute();
@@ -112,6 +136,21 @@ body { background:#f5f5f5; font-family:'Segoe UI',sans-serif; }
             <label>Page Title</label>
             <input type="text" name="page_title" value="<?php echo htmlspecialchars($blog['page_title']); ?>" required>
 
+            <label>Google Tag</label>
+            <textarea name="google_tag"><?php echo htmlspecialchars($blog['google_tag']); ?></textarea>
+
+            <label>JSON Tag</label>
+            <textarea name="json_tag"><?php echo htmlspecialchars($blog['json_tag']); ?></textarea>
+
+            <label>Meta Description</label>
+            <textarea name="meta_description"><?php echo htmlspecialchars($blog['meta_description']); ?></textarea>
+
+            <label>Meta Keywords</label>
+            <textarea name="meta_keywords"><?php echo htmlspecialchars($blog['meta_keywords']); ?></textarea>
+
+            <label>Canonical URL</label>
+            <input type="text" name="canonical_url" value="<?php echo htmlspecialchars($blog['canonical_url']); ?>">
+
             <label>Custom Slug</label>
             <input type="text" name="custom_slug" value="<?php echo htmlspecialchars($blog['custom_slug']); ?>" required>
 
@@ -122,13 +161,37 @@ body { background:#f5f5f5; font-family:'Segoe UI',sans-serif; }
             <input type="file" name="og_image" accept="image/*" onchange="previewImage(event,'og_preview')">
             <img id="og_preview" class="image-preview" src="<?php echo $blog['og_image']?:''; ?>">
 
+            <label>OG Image Alt</label>
+            <input type="text" name="og_image_alt" value="<?php echo htmlspecialchars($blog['og_image_alt']); ?>">
+
+            <label>OG URL</label>
+            <input type="text" name="og_url" value="<?php echo htmlspecialchars($blog['og_url']); ?>">
+
+            <label>OG Description</label>
+            <textarea name="og_description"><?php echo htmlspecialchars($blog['og_description']); ?></textarea>
+
             <label>Cover Image</label>
             <input type="file" name="cover_image" accept="image/*" onchange="previewImage(event,'cover_preview')">
             <img id="cover_preview" class="image-preview" src="<?php echo $blog['cover_image']?:''; ?>">
 
+            <label>Cover Image Alt</label>
+            <input type="text" name="cover_image_alt" value="<?php echo htmlspecialchars($blog['cover_image_alt']); ?>">
+
+            <label>Cover Title</label>
+            <input type="text" name="cover_title" value="<?php echo htmlspecialchars($blog['cover_title']); ?>">
+
+            <label>Cover Description</label>
+            <textarea name="cover_description"><?php echo htmlspecialchars($blog['cover_description']); ?></textarea>
+
+            <label>Posted On</label>
+            <input type="datetime-local" name="posted_on" value="<?php echo date('Y-m-d\TH:i', strtotime($blog['posted_on'])); ?>">
+
             <label>Banner Image</label>
             <input type="file" name="banner_image" accept="image/*" onchange="previewImage(event,'banner_preview')">
             <img id="banner_preview" class="image-preview" src="<?php echo $blog['banner_image']?:''; ?>">
+
+            <label>Banner Image Alt</label>
+            <input type="text" name="banner_image_alt" value="<?php echo htmlspecialchars($blog['banner_image_alt']); ?>">
 
             <label>Content</label>
             <textarea name="content" required><?php echo htmlspecialchars($blog['content']); ?></textarea>

@@ -28,19 +28,14 @@ if ($blog = $result->fetch_assoc()):
   <meta name="description" content="<?php echo htmlspecialchars($blog['meta_description']); ?>">
   <meta name="keywords" content="<?php echo htmlspecialchars($blog['meta_keywords']); ?>">
 
+  <!-- Google Tag (hidden on screen, visible in source code) -->
+  <style>.google-tag { display: none; }</style>
+  <div class="google-tag">
+      <?= $blog['google_tag']; ?>
+  </div>
 
-   <!-- Google Tag (hidden on screen, visible in source code) -->
-    <style>.google-tag { display: none; }</style>
-    <div class="google-tag">
-        <?= $blog['google_tag']; ?>
-    </div>
-
-
-    <!-- canonical  -->
-
-
-    <link rel="canonical" href="/blog/<?php echo htmlspecialchars($blog['custom_slug']); ?>">
-
+  <!-- canonical  -->
+  <link rel="canonical" href="/blog/<?php echo htmlspecialchars($blog['custom_slug']); ?>">
 
   <!-- OG -->
   <meta property="og:title" content="<?php echo htmlspecialchars($blog['og_title']); ?>">
@@ -54,8 +49,8 @@ if ($blog = $result->fetch_assoc()):
   <meta name="twitter:description" content="<?php echo htmlspecialchars($blog['og_description']); ?>">
   <meta name="twitter:image" content="<?php echo htmlspecialchars($blog['og_image']); ?>">
 
-
-
+  <!-- Font Awesome for Social Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
@@ -81,25 +76,22 @@ if ($blog = $result->fetch_assoc()):
       line-height: 1.7;
     }
 
+    .banner-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
     .banner {
       width: 100%;
-      height: 60vh;
+      height: 400px;
       overflow: hidden;
       position: relative;
-    }
-    
-    .banner::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background: linear-gradient(to top, var(--white), transparent);
-      z-index: 1;
+      margin-top: 30px;
     }
     
     .banner img {
+      margin-top: 7vh !important;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -110,11 +102,10 @@ if ($blog = $result->fetch_assoc()):
       display: flex;
       flex-wrap: wrap;
       max-width: 1200px;
-      margin: -80px auto 50px;
+      margin: 30px auto 50px;
       padding: 0 20px;
       gap: 30px;
       position: relative;
-      z-index: 2;
     }
 
     .content {
@@ -124,25 +115,6 @@ if ($blog = $result->fetch_assoc()):
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
       border-top: 5px solid var(--orange);
-    }
-    
-    .content h1 {
-      font-size: 32px;
-      margin-bottom: 15px;
-      color: var(--orange);
-      position: relative;
-      padding-bottom: 15px;
-    }
-    
-    .content h1::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 4px;
-      background: var(--orange);
-      border-radius: 2px;
     }
     
     .meta {
@@ -215,6 +187,9 @@ if ($blog = $result->fetch_assoc()):
 
     .sidebar {
       flex: 1 1 30%;
+      position: sticky;
+      top: 20px;
+      height: fit-content;
     }
     
     .sidebar h3 {
@@ -275,17 +250,97 @@ if ($blog = $result->fetch_assoc()):
       display: block;
     }
 
+    /* Social Sharing Styles */
+    .social-sharing {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid #eee;
+    }
+    
+    .social-sharing h4 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: var(--black);
+      text-align: center;
+    }
+    
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: var(--black);
+      font-size: 20px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: var(--white);
+      border: 1px solid #e0e0e0;
+      position: relative;
+    }
+    
+    .social-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      color: var(--white);
+    }
+    
+    .facebook:hover { background: #3b5998; }
+    .twitter:hover { background: #1da1f2; }
+    .linkedin:hover { background: #0077b5; }
+    .pinterest:hover { background: #bd081c; }
+    .instagram:hover { 
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    }
+    .whatsapp:hover { background: #25D366; }
+    .copy-link:hover { background: var(--orange); }
+    
+    .copy-message {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--black);
+      color: var(--white);
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    
+    .copy-message.show {
+      opacity: 1;
+    }
+    
+    .share-text {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
     /* Responsive */
     @media(max-width: 992px) {
       .banner {
-        height: 50vh;
+        height: 350px;
       }
     }
     
     @media(max-width: 768px) {
       .container {
         flex-direction: column;
-        margin-top: -50px;
       }
       
       .content, .sidebar {
@@ -307,7 +362,8 @@ if ($blog = $result->fetch_assoc()):
       }
       
       .banner {
-        height: 40vh;
+        height: 300px;
+        margin-top: 20px;
       }
       
       .recent-post {
@@ -321,6 +377,16 @@ if ($blog = $result->fetch_assoc()):
         margin-right: 0;
         margin-bottom: 12px;
       }
+      
+      .sidebar {
+        position: static;
+      }
+      
+      .social-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
     }
     
     @media(max-width: 480px) {
@@ -333,25 +399,36 @@ if ($blog = $result->fetch_assoc()):
       }
       
       .banner {
-        height: 35vh;
+        height: 250px;
+      }
+      
+      .social-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+      
+      .social-icons {
+        gap: 8px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Full Width Banner -->
-  <div class="banner">
-    <?php if ($blog['banner_image']): ?>
-      <img src="<?php echo htmlspecialchars($blog['banner_image']); ?>" alt="<?php echo htmlspecialchars($blog['banner_image_alt']); ?>">
-    <?php endif; ?>
+  <!-- Banner Container -->
+  <div class="banner-container">
+    <div class="banner">
+      <?php if ($blog['banner_image']): ?>
+        <img src="<?php echo htmlspecialchars($blog['banner_image']); ?>" alt="<?php echo htmlspecialchars($blog['banner_image_alt']); ?>">
+      <?php endif; ?>
+    </div>
   </div>
 
   <!-- Main Container -->
   <div class="container">
     <!-- Blog Content -->
     <div class="content">
-      <h1><?php echo htmlspecialchars($blog['custom_slug']); ?></h1>
       <div class="meta">
         <span>📂 <?php echo htmlspecialchars($blog['category_name']); ?></span>
         <span>🗓 <?php echo date('d M Y', strtotime($blog['posted_on'])); ?></span>
@@ -359,15 +436,62 @@ if ($blog = $result->fetch_assoc()):
       <div class="blog-body">
         <?php echo $blog['content']; ?>
       </div>
+      
+      <!-- Social Media Sharing -->
+      <div class="social-sharing">
+        <h4>Share this post</h4>
+        <div class="social-icons">
+          <?php
+          $current_url = urlencode((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+          $title = urlencode($blog['page_title']);
+          $description = urlencode(strip_tags($blog['content']));
+          ?>
+          
+          <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $current_url; ?>" target="_blank" class="social-btn facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          
+          <a href="https://twitter.com/intent/tweet?url=<?php echo $current_url; ?>&text=<?php echo $title; ?>" target="_blank" class="social-btn twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+          <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $current_url; ?>&title=<?php echo $title; ?>&summary=<?php echo $description; ?>" target="_blank" class="social-btn linkedin">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          
+          <a href="https://pinterest.com/pin/create/button/?url=<?php echo $current_url; ?>&media=<?php echo urlencode($blog['banner_image']); ?>&description=<?php echo $title; ?>" target="_blank" class="social-btn pinterest">
+            <i class="fab fa-pinterest-p"></i>
+          </a>
+          
+          <a href="https://www.instagram.com/" target="_blank" class="social-btn instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          
+          <a href="https://wa.me/?text=<?php echo $title . ' ' . $current_url; ?>" target="_blank" class="social-btn whatsapp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          
+          <a href="#" class="social-btn copy-link" onclick="copyBlogLink(event)">
+            <i class="fas fa-link"></i>
+            <span class="copy-message">Link Copied!</span>
+          </a>
+        </div>
+        <div class="share-text">
+          Click any icon to share this post
+        </div>
+      </div>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <h3>Recent Posts</h3>
       <?php
+      // Get recent posts from the same category only
+      $category_id = $blog['category_id'];
       $recent = $conn->query("SELECT b.custom_slug, b.banner_image, b.banner_image_alt, b.posted_on, c.slug AS cat_slug, c.name AS category 
                               FROM blogs b 
                               JOIN categories c ON b.category_id = c.id 
+                              WHERE b.category_id = $category_id AND b.id != {$blog['id']}
                               ORDER BY b.posted_on DESC LIMIT 5");
       while($r = $recent->fetch_assoc()):
       ?>
@@ -376,17 +500,89 @@ if ($blog = $result->fetch_assoc()):
             <img src="<?php echo htmlspecialchars($r['banner_image']); ?>" alt="<?php echo htmlspecialchars($r['banner_image_alt']); ?>">
           <?php endif; ?>
           <div>
-        <a href="/blog-website/<?php echo $r['cat_slug'].'/'.$r['custom_slug']; ?>">
-  <?php echo htmlspecialchars($r['custom_slug']); ?>
-</a>
-
-
+            <a href="/blog-website/<?php echo $r['cat_slug'].'/'.$r['custom_slug']; ?>">
+              <?php echo htmlspecialchars($r['custom_slug']); ?>
+            </a>
             <small><?php echo htmlspecialchars($r['category']); ?> | <?php echo date('d M Y', strtotime($r['posted_on'])); ?></small>
           </div>
         </div>
       <?php endwhile; ?>
     </div>
   </div>
+
+  <script>
+    // Function to copy blog link
+    function copyBlogLink(event) {
+      event.preventDefault();
+      const url = window.location.href;
+      
+      // Modern approach with Clipboard API
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(function() {
+          showCopyMessage(event.currentTarget);
+        }).catch(function(err) {
+          // If Clipboard API fails, use fallback method
+          fallbackCopyTextToClipboard(url, event.currentTarget);
+        });
+      } else {
+        // Use fallback method for older browsers or HTTP
+        fallbackCopyTextToClipboard(url, event.currentTarget);
+      }
+    }
+    
+    // Fallback method for copying text
+    function fallbackCopyTextToClipboard(text, targetElement) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showCopyMessage(targetElement);
+        } else {
+          alert('Failed to copy link. Please copy manually: ' + text);
+        }
+      } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+        alert('Failed to copy link. Please copy manually: ' + text);
+      }
+      
+      document.body.removeChild(textArea);
+    }
+    
+    // Show copy confirmation message
+    function showCopyMessage(targetElement) {
+      const copyMessage = targetElement.querySelector('.copy-message');
+      copyMessage.classList.add('show');
+      
+      // Hide message after 2 seconds
+      setTimeout(function() {
+        copyMessage.classList.remove('show');
+      }, 2000);
+    }
+    
+    // Function to share blog using Web Share API
+    function shareBlog() {
+      if (navigator.share) {
+        navigator.share({
+          title: '<?php echo addslashes($blog['page_title']); ?>',
+          text: '<?php echo addslashes(strip_tags($blog['content'])); ?>',
+          url: window.location.href
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing:', error));
+      } else {
+        // Fallback: copy to clipboard
+        copyBlogLink(event);
+      }
+    }
+  </script>
 
   <!-- JSON-LD structured data placed just above body close -->
 <?php

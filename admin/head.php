@@ -213,11 +213,17 @@ Home
            
           </a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="fas fa-users"></i>
+        <li class="nav-item">
+          <a class="nav-link" href="email-list.php">
+            <i class="fas fa-users"></i>Emails
           </a>
-        </li> -->
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="contact-list.php">
+            <i class="fas fa-users"></i>Contacts
+          </a>
+        </li>
       
       </ul>
 

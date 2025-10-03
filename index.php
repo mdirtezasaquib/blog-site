@@ -53,215 +53,7 @@ include('common/navbar.php');
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* Reset */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-    }
-
-    /* Hero Section */
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: url('images/land.jpg') no-repeat center center/cover;
-      overflow: hidden;
-      
-    }
-
-    /* Gradient Overlay */
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      animation: gradientMove 10s infinite alternate ease-in-out;
-    
-    }
-    .hero-content {
-      position: relative;
-     
-      max-width: 800px;
-      padding: 20px;
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color : black;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(45deg, #00f260, #0575e6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 800;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-      line-height: 1.6;
-      color : gray;
-    }
-
-   
-    .btn-primary-custom {
-      background: linear-gradient(45deg, #00f260, #0575e6);
-      border: none;
-      color: #fff;
-    }
-
-    .btn-primary-custom:hover {
-      background: linear-gradient(45deg, #0575e6, #00f260);
-      transform: scale(1.05);
-    }
-
-    .btn-outline-custom {
-      border: 2px solid #fff;
-      color: #fff;
-      background: transparent;
-    }
-
-    .btn-outline-custom:hover {
-      background: #fff;
-      color: #0575e6;
-      transform: scale(1.05);
-    }
-
-    /* Email Form */
-    .email-form {
-      max-width: 500px;
-      margin: 0 auto 30px auto;
-      display: flex;
-      gap: 10px;
-     
-    }
-
-    .email-form input {
-      flex: 1;
-      padding: 12px 15px;
-      border-radius: 50px;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-       border : 1px solid black;
-    }
-
-    .email-form button {
-      border-radius: 50px;
-      padding: 12px 25px;
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      .email-form {
-        flex-direction: column;
-      }
-    }
-
-
-    /* blog-index */
-
-    .container { padding: 40px 16px; max-width: 1200px; }
-
-/* Category heading */
-.category-block { margin-bottom: 48px; padding: 28px; background: #fff; border-radius: 12px; box-shadow: 0 6px 20px rgba(19,24,31,0.04); }
-.category-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
-.category-head h2 { margin:0; font-size:22px; color:#0f1724; }
-.category-head .cat-meta { color:#6b7280; font-size:14px; }
-
-/* Big (featured) blog card */
-.featured-card {
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  border-radius:12px;
-  overflow:hidden;
-  background: linear-gradient(180deg,#ffffff,#fcfdff);
-  padding:16px;
-  height:100%;
-}
-.featured-card .thumb { width:100%; height:320px; object-fit:cover; border-radius:8px; background:#eee; }
-.featured-card .meta { display:flex; gap:8px; align-items:center; color:#6b7280; font-size:13px; }
-.featured-card h3 { margin:0; font-size:20px; color:#0b1220; text-decoration: none !important; }
-.featured-card p.lead { color:#374151; margin:6px 0 12px; }
-
-/* Small cards list (right column) */
-.small-list { display:flex; flex-direction:column; gap:12px; }
-.small-card {
-  display:flex;
-  gap:12px;
-  align-items:center;
-  padding:10px;
-  border-radius:10px;
-  background:#fff;
-  border:1px solid #f1f5f9;
-  transition:transform .12s ease, box-shadow .12s ease;
-}
-.small-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(16,24,40,0.06); }
-.small-card img { width:88px; height:64px; object-fit:cover; border-radius:6px; flex-shrink:0; }
-.small-card .s-info { flex:1; }
-.small-card .s-info h4 { margin:0; font-size:15px; color:#0b1220; }
-.small-card .s-info .date { font-size:13px; color:#6b7280; margin-top:6px; }
-
-/* Read more button */
-.btn-read {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border-radius:8px;
-  border: none;
- background: linear-gradient(45deg, #00f260, #0575e6);
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  font-size:14px;
-}
-.btn-read i { font-size:12px; }
-.small-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin-top:14px; }
-.small-grid .card { padding:10px; border-radius:10px; background:#fff; border:1px solid #f1f5f9; }
-
-
-@media (max-width: 991px) {
-  .featured-card .thumb { height:260px; }
-}
-@media (max-width: 767px) {
-  .container { padding:24px 12px; }
-  .featured-card .thumb { height:200px; }
-  .small-card img { width:72px; height:52px; }
-  .category-block { padding:18px; }
-  .category-head h2 { font-size:18px; }
-  .small-grid { grid-template-columns:repeat(1,1fr); }
-}
-
-
-a {
-  text-decoration: none !important;
-  color: inherit; 
-}
-
-a:hover {
-  text-decoration: none !important;
-  color: #0575e6; 
-}
-  </style>
+  <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
@@ -273,15 +65,20 @@ a:hover {
 We bring you fresh, engaging, and SEO-friendly content to keep you informed and inspired.</p>
 
 
-    <!-- Email Form -->
-    <form class="email-form" action="#" method="post" data-aos="zoom-in">
-      <input type="email" placeholder="Enter your work email" required>
-      <button type="submit" class="btn btn-primary-custom">Get Free Proposal</button>
-    </form>
+    <form class="email-form" action="admin/save-email.php" method="post" data-aos="zoom-in">
+  <input type="email" name="email" placeholder="Enter your work email" required>
+  <button type="submit" class="btn btn-primary-custom">Subscribe Newsletter</button>
+</form>
+
 
    
   </div>
 </section>
+
+
+
+
+
 
 <!--  dynamic blog section -->
 <?php
@@ -361,7 +158,11 @@ if (!$catResult || $catResult->num_rows === 0) {
   <section class="category-block">
     <div class="category-head">
       <div>
-        <h2><?php echo e($catName); ?></h2>
+       <h2>
+  <a href="<?= e($catSlug) ?>" style="text-decoration:none; color:#000;">
+    <?= e($catName) ?>
+  </a>
+</h2>
         <div class="cat-meta"><?php echo $otherCount + 1; ?> Posts Total</div>
       </div>
       
